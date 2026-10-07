@@ -1,0 +1,913 @@
+:root {
+  --bg-deep: #050811;
+  --bg-card: rgba(15, 23, 42, 0.85);
+  --bg-card-border: rgba(56, 189, 248, 0.2);
+  --neon-cyan: #00f2fe;
+  --neon-pink: #ff0844;
+  --neon-gold: #ffd200;
+  --neon-purple: #a855f7;
+  --neon-green: #10b981;
+  --text-primary: #f8fafc;
+  --text-muted: #94a3b8;
+  --font-main: 'Outfit', -apple-system, sans-serif;
+  --font-arcade: 'Orbitron', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body {
+  background-color: var(--bg-deep);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(0, 242, 254, 0.12) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(255, 8, 68, 0.08) 0%, transparent 50%);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Header de la Cabina Arcade */
+.cabinet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: rgba(10, 15, 29, 0.9);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--bg-card-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  z-index: 100;
+}
+
+.logo-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-badge {
+  background: linear-gradient(135deg, #ef4444, #f43f5e);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.game-title {
+  font-family: var(--font-arcade);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #ffffff;
+}
+
+.game-title span {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 12px rgba(0, 242, 254, 0.6);
+}
+
+.subtitle {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--neon-gold);
+  font-weight: 700;
+  border-left: 2px solid rgba(255, 255, 255, 0.2);
+  padding-left: 12px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-icon {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: var(--neon-cyan);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #f8fafc;
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Cuerpo de la Cabina */
+.cabinet-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 305px minmax(350px, 475px) 325px;
+  justify-content: center;
+  align-items: start;
+  gap: 14px;
+  padding: 10px 16px;
+  max-width: 1540px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Paneles Laterales Glassmorphism con scroll elegante */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: calc(100vh - 85px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.panel::-webkit-scrollbar {
+  width: 4px;
+}
+.panel::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.25);
+  border-radius: 4px;
+}
+
+.panel-section-title {
+  font-family: var(--font-arcade);
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  color: var(--neon-cyan);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mt-4 {
+  margin-top: 14px;
+}
+
+/* Escuadrón de Criaturas (RPG Metagame) */
+.critters-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.critter-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.critter-card.ready {
+  border-color: var(--neon-gold);
+  box-shadow: 0 0 16px rgba(255, 210, 0, 0.35);
+  animation: glowPulse 2s infinite alternate;
+}
+
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 8px rgba(255, 210, 0, 0.2); }
+  100% { box-shadow: 0 0 20px rgba(255, 210, 0, 0.5); }
+}
+
+.critter-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.critter-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.critter-avatar {
+  font-size: 22px;
+}
+
+.critter-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+}
+
+.critter-level {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.btn-critter-ability {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: not-allowed;
+  transition: all 0.2s;
+}
+
+.critter-card.ready .btn-critter-ability {
+  background: linear-gradient(135deg, #ffd200, #f59e0b);
+  border-color: #ffd200;
+  color: #000;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 210, 0, 0.5);
+}
+
+.mana-bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mana-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.2s ease;
+}
+
+.critter-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+/* Bóveda de Recompensas */
+.rewards-vault {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vault-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.vault-value {
+  color: var(--neon-gold);
+  font-family: var(--font-arcade);
+}
+
+.gems-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.gem-box {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding: 6px 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.gem-icon {
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.gem-count {
+  font-weight: 700;
+  font-family: var(--font-arcade);
+}
+
+/* Columna Central Arcade */
+.cabinet-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+/* Arena de Boss Superior */
+.boss-arena-card {
+  width: 100%;
+  max-width: 500px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(15, 23, 42, 0.9));
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: 14px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 18px rgba(239, 68, 68, 0.15);
+}
+
+.boss-avatar-frame {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid var(--neon-purple);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+  background: #000;
+  flex-shrink: 0;
+}
+
+.boss-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.boss-avatar-badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(168, 85, 247, 0.9);
+  color: #fff;
+  font-size: 8px;
+  font-weight: 900;
+  text-align: center;
+  letter-spacing: 1px;
+  padding: 1px 0;
+  font-family: var(--font-arcade);
+}
+
+.boss-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.boss-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.boss-name {
+  font-family: var(--font-arcade);
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.boss-hp-text {
+  font-family: var(--font-arcade);
+  font-size: 11px;
+  color: #fca5a5;
+}
+
+.hp-bar-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.hp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ef4444, #f43f5e);
+  border-radius: 5px;
+  transition: width 0.25s ease;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
+}
+
+/* Canvas del Pinball en Marco Arcade */
+.canvas-wrapper {
+  position: relative;
+  width: 460px;
+  max-width: 100%;
+  aspect-ratio: 500 / 800;
+  max-height: calc(100vh - 230px);
+  border-radius: 18px;
+  border: 3px solid #1e293b;
+  box-shadow: 
+    0 0 0 1px rgba(56, 189, 248, 0.4),
+    0 0 35px rgba(0, 242, 254, 0.2),
+    inset 0 0 20px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+  background: #060913;
+}
+
+#pinball-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Touch zones transparentes en móvil */
+.touch-zones {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+}
+
+.touch-zone {
+  flex: 1;
+  height: 100%;
+  pointer-events: auto;
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.touch-zone:active {
+  background: rgba(56, 189, 248, 0.08);
+}
+
+.touch-hint {
+  position: absolute;
+  bottom: 120px;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-arcade);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+}
+
+/* Barra de Manipulación Activa */
+.active-manipulation-bar {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  gap: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--bg-card-border);
+  border-radius: 12px;
+  padding: 8px 14px;
+}
+
+.tilt-status {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 110px;
+}
+
+.tilt-label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.tilt-leds {
+  display: flex;
+  gap: 6px;
+}
+
+.led {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1e293b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s;
+}
+
+.led.active-1 { background: #eab308; box-shadow: 0 0 8px #eab308; }
+.led.active-2 { background: #f97316; box-shadow: 0 0 10px #f97316; }
+.led.active-3 { background: #ef4444; box-shadow: 0 0 14px #ef4444; animation: flash 0.4s infinite alternate; }
+
+@keyframes flash {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+.magnet-status {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.magnet-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.magnet-label {
+  color: var(--neon-cyan);
+}
+
+.magnet-percent {
+  font-family: var(--font-arcade);
+  color: #fff;
+}
+
+.magnet-bar-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 242, 254, 0.2);
+}
+
+.magnet-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00f2fe, #38bdf8);
+  border-radius: 4px;
+  transition: width 0.15s ease;
+  box-shadow: 0 0 8px rgba(0, 242, 254, 0.6);
+}
+
+/* Controles On-Screen para Mobile y Ratón */
+.on-screen-controls {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nudge-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-nudge {
+  flex: 1;
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-nudge:hover, .btn-nudge:active {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: var(--neon-cyan);
+  transform: translateY(-1px);
+}
+
+.action-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-magnet {
+  flex: 1;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.3), rgba(30, 58, 138, 0.5));
+  border: 1px solid var(--neon-cyan);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-magnet:active, .btn-magnet.holding {
+  background: var(--neon-cyan);
+  color: #000;
+  box-shadow: 0 0 16px rgba(0, 242, 254, 0.7);
+}
+
+.btn-plunger {
+  flex: 1;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(153, 27, 27, 0.6));
+  border: 1px solid #ef4444;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-plunger:active, .btn-plunger.charging {
+  background: #ef4444;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.8);
+}
+
+.btn-burst {
+  flex: 1.25;
+  background: linear-gradient(135deg, #ffd200, #f59e0b);
+  border: 1px solid #ffd200;
+  color: #000;
+  font-size: 11px;
+  font-weight: 900;
+  padding: 10px 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 0 14px rgba(255, 210, 0, 0.4);
+  font-family: var(--font-arcade);
+  letter-spacing: 0.5px;
+}
+
+.btn-burst:hover, .btn-burst:active {
+  background: #ffffff;
+  color: #000;
+  box-shadow: 0 0 22px rgba(255, 210, 0, 0.85);
+  transform: translateY(-1px);
+}
+
+/* Columna Derecha: Marcador & Calendarios */
+.scoreboard-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-card-border);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+}
+
+.score-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.score-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  font-weight: 800;
+}
+
+.score-number {
+  font-family: var(--font-arcade);
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 14px rgba(0, 242, 254, 0.6);
+}
+
+.score-meta-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.meta-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+.meta-val {
+  font-family: var(--font-arcade);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.meta-val.highlight {
+  color: var(--neon-gold);
+}
+
+.meta-val.balls {
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+/* Tarjetas de Eventos */
+.event-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.event-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.tag-weekly {
+  background: rgba(56, 189, 248, 0.2);
+  color: var(--neon-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.tag-special {
+  background: rgba(244, 63, 94, 0.2);
+  color: #f43f5e;
+  border: 1px solid rgba(244, 63, 94, 0.4);
+}
+
+.day-badge, .timer-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.event-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.event-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.event-bonus, .event-modifier {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.event-bonus { color: var(--neon-gold); }
+.event-modifier { color: #f43f5e; }
+
+.selector-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.days-buttons-grid, .special-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.btn-day, .btn-special {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 6px 2px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-day.weekend {
+  color: var(--neon-gold);
+  border-color: rgba(255, 210, 0, 0.3);
+}
+
+.btn-day.active, .btn-special.active {
+  background: var(--neon-cyan);
+  color: #000;
+  border-color: #fff;
+  font-weight: 900;
+}
+
+.controls-guide-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.guide-title {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.guide-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+kbd {
+  background: #1e293b;
+  border: 1px solid #475569;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: var(--font-arcade);
+  font-size: 9px;
+  color: #f8fafc;
+}
+
+/* Responsive / Adaptación Móvil */
+@media (max-width: 1200px) {
+  .cabinet-body {
+    grid-template-columns: 280px 1fr 280px;
+  }
+}
+
+@media (max-width: 992px) {
+  .cabinet-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .panel {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .canvas-wrapper {
+    max-height: 72vh;
+  }
+}

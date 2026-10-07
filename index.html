@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Cosmic Pinball: Clash of Critters</title>
+    <!-- Google Fonts: Orbitron para estética Arcade y Outfit para UI moderna -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- Barra Superior / Header de Cabina -->
+      <header class="cabinet-header">
+        <div class="logo-group">
+          <span class="logo-badge">PROTOTIPO FASE 1 & 2</span>
+          <h1 class="game-title">COSMIC <span>PINBALL</span></h1>
+          <span class="subtitle">CLASH OF CRITTERS</span>
+        </div>
+        
+        <div class="header-actions">
+          <button id="btn-sound-toggle" class="btn-icon" title="Silenciar / Activar Sonido">
+            <span id="sound-icon">🔊</span>
+          </button>
+          <button id="btn-restart" class="btn-secondary" title="Reiniciar Partida">
+            🔄 Nueva Bola
+          </button>
+        </div>
+      </header>
+
+      <!-- Layout Principal en 3 Columnas (Cabina de Escritorio / Responsive) -->
+      <main class="cabinet-body">
+        
+        <!-- Columna Izquierda: Escuadrón RPG y Recursos -->
+        <aside class="panel panel-left" id="panel-critters">
+          <div class="panel-section-title">
+            <span class="icon">🐾</span> ESCUADRÓN DE CRIATURAS
+          </div>
+          
+          <div class="critters-container" id="critters-list">
+            <!-- Renderizado dinámico de Criaturas -->
+          </div>
+
+          <div class="panel-section-title mt-4">
+            <span class="icon">💎</span> BÓVEDA DE RECOMPENSAS
+          </div>
+          <div class="rewards-vault">
+            <div class="vault-item">
+              <span class="vault-label">🪙 Oro Cósmico</span>
+              <span class="vault-value" id="val-gold">0</span>
+            </div>
+            <div class="gems-grid" id="gems-list">
+              <!-- Renderizado de gemas elementales ganadas en la mesa -->
+            </div>
+          </div>
+        </aside>
+
+        <!-- Columna Central: Campo de Juego de Pinball (9:16) -->
+        <section class="cabinet-center">
+          <!-- Arena de Combate Superior (Boss Activo) -->
+          <div class="boss-arena-card" id="boss-card">
+            <div class="boss-avatar-frame">
+              <img id="boss-avatar-img" src="/assets/boss_titan_gorgon.jpg" alt="Boss Titan" class="boss-avatar-img" />
+              <span class="boss-avatar-badge" id="boss-avatar-badge">EVENTO</span>
+            </div>
+            <div class="boss-info">
+              <div class="boss-header-row">
+                <span class="boss-name" id="boss-name">Titán Astral Gorgon</span>
+                <span class="boss-hp-text" id="boss-hp-text">15000 / 15000</span>
+              </div>
+              <div class="hp-bar-track">
+                <div class="hp-bar-fill" id="boss-hp-fill" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mesa de Pinball en Canvas con Marco Arcade Luminoso -->
+          <div class="canvas-wrapper">
+            <canvas id="pinball-canvas"></canvas>
+            
+            <!-- Overlay táctil transparente para controles móviles -->
+            <div class="touch-zones">
+              <div class="touch-zone left" id="touch-left-flipper">
+                <span class="touch-hint">PULSA FLIPPER IZQ</span>
+              </div>
+              <div class="touch-zone right" id="touch-right-flipper">
+                <span class="touch-hint">PULSA FLIPPER DER</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Barra de Manipulación Activa (Nudge & Campo Magnético) -->
+          <div class="active-manipulation-bar">
+            <!-- Indicador de Tilt (3 advertencias) -->
+            <div class="tilt-status">
+              <span class="tilt-label">TILT MONITOR</span>
+              <div class="tilt-leds">
+                <span class="led" id="led-1"></span>
+                <span class="led" id="led-2"></span>
+                <span class="led" id="led-3"></span>
+              </div>
+            </div>
+
+            <!-- Medidor de Energía Magnética ("Skill Steer") -->
+            <div class="magnet-status">
+              <div class="magnet-header">
+                <span class="magnet-label">🧲 PULSO MAGNÉTICO (ESPACIO)</span>
+                <span class="magnet-percent" id="magnet-val">100%</span>
+              </div>
+              <div class="magnet-bar-track">
+                <div class="magnet-bar-fill" id="magnet-bar-fill" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controles de Botones Rápidos en Pantalla (Mobile / On-Screen) -->
+          <div class="on-screen-controls">
+            <div class="nudge-controls">
+              <button class="btn-nudge" id="btn-nudge-left" title="Sacudir Izquierda [Q]">⬅️ Sacudida</button>
+              <button class="btn-nudge" id="btn-nudge-up" title="Sacudir Arriba [W]">⬆️ Empujón</button>
+              <button class="btn-nudge" id="btn-nudge-right" title="Sacudir Derecha [E]">Sacudida ➡️</button>
+            </div>
+            <div class="action-controls">
+              <button class="btn-magnet" id="btn-magnet-toggle" title="Pulso Magnético [ESPACIO]">
+                🧲 Atractor
+              </button>
+              <button class="btn-plunger" id="btn-plunger-hold" title="Lanzar Bola [S / ↓]">
+                🚀 Lanzar Bola
+              </button>
+              <button class="btn-burst" id="btn-burst-15" title="Lanzar Ráfaga Masiva de 15 Bolas estilo Pachinko [R]">
+                ⚡ RÁFAGA 15 BOLAS [R]
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Columna Derecha: Puntuación, Calendario 7 Días y Evento 3 Días -->
+        <aside class="panel panel-right" id="panel-events">
+          <!-- Marcador de Puntuación Arcade -->
+          <div class="scoreboard-card">
+            <div class="score-display">
+              <span class="score-label">PUNTUACIÓN</span>
+              <span class="score-number" id="val-score">000000</span>
+            </div>
+            <div class="score-meta-row">
+              <div class="meta-item">
+                <span class="meta-label">RÉCORD</span>
+                <span class="meta-val" id="val-high-score">000000</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">COMBO</span>
+                <span class="meta-val highlight" id="val-combo">x1</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">ESFERAS</span>
+                <span class="meta-val balls" id="val-balls">⚪ ⚪ ⚪</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Módulo de Calendario Semanal (7 Días: 5 Variaciones + 2 Full Content) -->
+          <div class="event-card weekly-card">
+            <div class="event-card-header">
+              <span class="tag tag-weekly">CALENDARIO SEMANAL</span>
+              <span class="day-badge" id="lbl-current-day">HOY</span>
+            </div>
+            <h3 class="event-title" id="lbl-table-name">Cargando mesa...</h3>
+            <p class="event-desc" id="lbl-table-desc">Descripción...</p>
+            <div class="event-bonus" id="lbl-table-bonus">Bonus...</div>
+
+            <!-- Selector Interactivo para probar los 7 días -->
+            <div class="day-selector-group">
+              <span class="selector-label">Simular día de la semana:</span>
+              <div class="days-buttons-grid">
+                <button class="btn-day" data-day="1">Lun</button>
+                <button class="btn-day" data-day="2">Mar</button>
+                <button class="btn-day" data-day="3">Mié</button>
+                <button class="btn-day" data-day="4">Jue</button>
+                <button class="btn-day" data-day="5">Vie</button>
+                <button class="btn-day weekend" data-day="6">Sáb (Full)</button>
+                <button class="btn-day weekend" data-day="0">Dom (Full)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Módulo de Evento Especial de 3 Días (4 Eventos en Ciclo Mensual) -->
+          <div class="event-card special-card">
+            <div class="event-card-header">
+              <span class="tag tag-special">EVENTO DE 3 DÍAS</span>
+              <span class="timer-badge" id="lbl-event-timer">⏳ 48h restantes</span>
+            </div>
+            <h3 class="event-title" id="lbl-special-name">Invasión Cósmica</h3>
+            <p class="event-desc" id="lbl-special-desc">Descripción...</p>
+            <div class="event-modifier" id="lbl-special-mod">Modificador activo</div>
+
+            <!-- Selector para probar los 4 eventos del mes -->
+            <div class="special-events-selector">
+              <span class="selector-label">Ciclo de 4 eventos mensuales:</span>
+              <div class="special-buttons-grid">
+                <button class="btn-special" data-event="0">1. Invasión</button>
+                <button class="btn-special" data-event="1">2. Flipper Oro</button>
+                <button class="btn-special" data-event="2">3. Crías Míticas</button>
+                <button class="btn-special" data-event="3">4. Gravedad Cero</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Guía de Controles Rápidos -->
+          <div class="controls-guide-card">
+            <div class="guide-title">GUÍA DE TECLAS (PC)</div>
+            <div class="guide-row"><span>Flippers:</span> <kbd>A / D</kbd> o <kbd>← / →</kbd></div>
+            <div class="guide-row"><span>Lanzador (Plunger):</span> <kbd>S</kbd> o <kbd>↓</kbd></div>
+            <div class="guide-row"><span>Sacudida (Nudge):</span> <kbd>Q</kbd> ⬅️ | <kbd>W</kbd> ⬆️ | <kbd>E</kbd> ➡️</div>
+            <div class="guide-row"><span>Pulso Magnético:</span> Mantener <kbd>ESPACIO</kbd></div>
+            <div class="guide-row"><span>Ráfaga 15 Bolas:</span> <kbd>R</kbd> (Modo Pachinko)</div>
+            <div class="guide-row"><span>Habilidades Criaturas:</span> <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> <kbd>4</kbd></div>
+          </div>
+        </aside>
+
+      </main>
+    </div>
+  </body>
+</html>
