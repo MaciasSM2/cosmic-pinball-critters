@@ -1,12 +1,14 @@
 {
-  "name": "pinball",
+  "name": "cosmic-pinball-critters",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cap:sync": "cap sync android",
+    "cap:build": "npm run build && npx cap sync android"
   },
   "devDependencies": {
     "@types/canvas-confetti": "^1.9.0",

@@ -1,19 +1,20 @@
 # PROTOCOLO DE RECUPERACIÓN Y REGISTRO HISTORIAL DE EMERGENCIA
 **Proyecto:** Cosmic Pinball: Clash of Critters  
+**Versión:** 1.1.0  
 **Última Actualización:** 2026-10-07 (Estado 100% Funcional y Verificado)  
 **Propósito:** Si el chat de la IA o el entorno se congela, se corta o sufre desconexión, este documento permite reanudar el trabajo de forma inmediata sin repetir instrucciones ni comandos.
 
 ---
 
-## 🚨 TEXTO RÁPIDO DE REANUDACIÓN (Copiar y pegar en caso de congelamiento)
+## 🚨 TEXTO RÁPIDO DE REANUDACIÓN (Copiar y pegar en caso de desconexión)
 
 Si abres una nueva sesión de chat o si la sesión actual se reinicia, simplemente copia y envía el siguiente mensaje:
 
 ```text
-Continuar proyecto de Pinball desde EMERGENCY_RECOVERY.md.
-El entorno ya está configurado con TypeScript, Vite, Matter.js y Web Audio API.
-Fase 1 (física y controles), Fase 2 (RPG, 7 días, 4 eventos de 3 días) y la Fusión de Pachinko (15 bolas continuas + 5 ranuras inferiores estilo Clash of Critters) ya están 100% completadas y funcionando en http://127.0.0.1:5173/.
-Consulta EMERGENCY_RECOVERY.md y procede con el siguiente paso solicitado.
+Continuar proyecto de Pinball desde EMERGENCY_RECOVERY.md (v1.1.0).
+El entorno está configurado con TypeScript, Vite, Matter.js, Web Audio API y Capacitor Android.
+Fase 1 (física y controles), Fase 2 (RPG, 7 días, 4 eventos de 3 días), Fusión Pachinko (15 bolas continuas + 5 ranuras inferiores estilo Clash of Critters), Fase 3 (Proyecto Android Nativo) y la suite de GitHub Actions CI/CD con compilación de APK en la nube están 100% completadas y operativas.
+Consulta EMERGENCY_RECOVERY.md y procede con el siguiente requerimiento solicitado.
 ```
 
 ---
@@ -55,22 +56,41 @@ Consulta EMERGENCY_RECOVERY.md y procede con el siguiente paso solicitado.
   - Ranura 3: `x5 MANÁ` (recarga de maná).
   - Ranura 4: `x2 ORO` (+250 monedas de oro cósmico).
 
+### Hito 6: Adaptación Móvil y Proyecto Nativo Android (Fase 3)
+- Inicialización de **Capacitor** (`@capacitor/android`, `@capacitor/core`, `@capacitor/cli`).
+- Proyecto nativo generado en `android/` con package `com.pinball.critters`.
+- Configuración en `AndroidManifest.xml`: Orientación bloqueada verticalmente (*sensorPortrait*), aceleración por hardware forzada y permisos de vibración háptica (`VIBRATE`).
+- PWA WebAPK integrada con `public/manifest.json`.
+
+### Hito 7: Suite de GitHub, CI/CD, Workflows Cloud y Release v1.1.0
+- **GitHub Actions Workflows:**
+  - `.github/workflows/ci.yml`: Verificación automática de compilación TypeScript y Vite en pushes y PRs.
+  - `.github/workflows/build-apk.yml`: Compilación en la nube con Java JDK 17 y Android SDK que genera y almacena el archivo `app-debug.apk` como artefacto descargable.
+  - `.github/workflows/deploy-pages.yml`: Despliegue automatizado en GitHub Pages.
+- **Comunidad y Documentación GitHub:**
+  - Licencia formal MIT en `LICENSE`.
+  - Plantillas de Issue: `.github/ISSUE_TEMPLATE/bug_report.md` y `feature_request.md`.
+  - Plantilla de Pull Request: `.github/pull_request_template.md`.
+  - Guía de contribución: `CONTRIBUTING.md`.
+  - Historial de cambios: `CHANGELOG.md` (v1.0.0 y v1.1.0).
+  - Documentación unificada con badges en `README.md`.
+
 ---
 
 ## 🛠️ Estado Técnico del Entorno
 
 | Parámetro | Estado |
 | :--- | :--- |
+| **Versión del Proyecto** | `1.1.0` |
 | **Directorio del Proyecto** | `c:\Users\Sebastian Macias\Documents\0. Programacion\Pinball` |
 | **Servidor Local Activo** | `http://127.0.0.1:5173/` (Vite) |
 | **Estado de Compilación** | `npm run build` -> Exit code 0 (Cero errores de TypeScript) |
-| **Dependencias Clave** | `matter-js`, `canvas-confetti`, `lucide`, `@types/matter-js`, `typescript`, `vite` |
+| **Sincronización Android** | `android/app/src/main/assets/public` sincronizado vía `npx cap sync android` |
+| **Dependencias Clave** | `matter-js`, `canvas-confetti`, `lucide`, `@capacitor/android`, `@capacitor/core`, `typescript`, `vite` |
 
 ---
 
 ## ⚡ Comandos de Restauración y Diagnóstico Rápido
-
-Si el proceso o servidor se cierra inesperadamente:
 
 1. **Reanudar servidor de desarrollo:**
    ```powershell
@@ -81,7 +101,11 @@ Si el proceso o servidor se cierra inesperadamente:
    ```powershell
    npm run build
    ```
-3. **Estado de Git / Archivos modificados:**
+3. **Sincronizar cambios a Android:**
    ```powershell
-   git status
+   npm run cap:build
+   ```
+4. **Anclar estado del proyecto (Gravify):**
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File scripts\gravify.ps1
    ```
