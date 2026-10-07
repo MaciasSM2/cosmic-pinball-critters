@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Cosmic Pinball</string>
+    <string name="title_activity_main">Cosmic Pinball</string>
+    <string name="package_name">com.pinball.critters</string>
+    <string name="custom_url_scheme">com.pinball.critters</string>
+</resources>

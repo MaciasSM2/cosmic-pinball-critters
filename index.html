@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Cosmic Pinball: Clash of Critters</title>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#050811" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <!-- Google Fonts: Orbitron para estética Arcade y Outfit para UI moderna -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,12 +19,15 @@
       <!-- Barra Superior / Header de Cabina -->
       <header class="cabinet-header">
         <div class="logo-group">
-          <span class="logo-badge">PROTOTIPO FASE 1 & 2</span>
+          <span class="logo-badge">FASE 1, 2 & 3 APK</span>
           <h1 class="game-title">COSMIC <span>PINBALL</span></h1>
           <span class="subtitle">CLASH OF CRITTERS</span>
         </div>
         
         <div class="header-actions">
+          <button id="btn-fullscreen" class="btn-icon" title="Pantalla Completa Móvil">
+            <span>⛶</span>
+          </button>
           <button id="btn-sound-toggle" class="btn-icon" title="Silenciar / Activar Sonido">
             <span id="sound-icon">🔊</span>
           </button>

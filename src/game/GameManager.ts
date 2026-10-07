@@ -222,6 +222,9 @@ export class GameManager {
   // Bumper Hit: Carga maná de la criatura elemental afín
   private handleBumperHit(bumper: BumperConfig) {
     this.renderer.triggerBumperFlash(bumper.id);
+    if ('vibrate' in navigator) {
+      try { navigator.vibrate(10); } catch { /* ignore */ }
+    }
 
     const critter = this.critters.find((c) => c.element === bumper.element);
     if (critter) {
@@ -271,6 +274,10 @@ export class GameManager {
 
   // Entrada en una de las 5 Ranuras Inferiores (Bottom Slots estilo Clash of Critters)
   private handleBottomSlotHit(slot: BottomSlotConfig, _ball: Matter.Body) {
+    if ('vibrate' in navigator) {
+      try { navigator.vibrate(slot.multiplier >= 10 ? [35, 20, 60] : 18); } catch { /* ignore */ }
+    }
+
     const points = 1000 * slot.multiplier * this.multiplier;
     this.handleScoreAdd(points, slot.element, { x: slot.x, y: slot.y - 15 });
 

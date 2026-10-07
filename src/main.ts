@@ -143,6 +143,23 @@ window.addEventListener('DOMContentLoaded', () => {
     game.restartGame();
   });
 
+  // Botón de Pantalla Completa Móvil
+  const btnFullscreen = document.getElementById('btn-fullscreen');
+  btnFullscreen?.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+      try {
+        if ('orientation' in screen && 'lock' in (screen.orientation as unknown as { lock: (o: string) => Promise<void> })) {
+          (screen.orientation as unknown as { lock: (o: string) => Promise<void> }).lock('portrait').catch(() => {});
+        }
+      } catch {
+        // ignore
+      }
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  });
+
   // Selectores de Día de la Semana
   document.querySelectorAll('.btn-day').forEach((btn) => {
     btn.addEventListener('click', () => {

@@ -1,0 +1,18 @@
+{
+  "name": "Cosmic Pinball: Clash of Critters",
+  "short_name": "CosmicPinball",
+  "description": "Pinball arcade con ráfaga de 15 bolas de pachinko y batalla de criaturas RPG.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050811",
+  "theme_color": "#00f2fe",
+  "icons": [
+    {
+      "src": "/assets/boss_titan_gorgon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
