@@ -5,6 +5,27 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/
 
 ---
 
+## [1.2.0] - 2026-10-07
+
+### Añadido
+- **Entorno Visual Final e Integración de Activos Gráficos Ilustrados:**
+  - Sustitución de todos los glifos de texto plano y emojis por 13 activos vectoriales de alta fidelidad con iluminación neón:
+    - 6 Retratos de Criaturas: Ignis (`critter_ignis.svg`), Aquara (`critter_aquara.svg`), Golemix (`critter_golemix.svg`), Zephyra (`critter_zephyra.svg`), Umbra (`critter_umbra.svg`), Solaris (`critter_solaris.svg`).
+    - 5 Gemas Elementales Cristalinas: Fuego (`gem_fire.svg`), Agua (`gem_water.svg`), Tierra (`gem_earth.svg`), Viento (`gem_wind.svg`), Vacío (`gem_void.svg`).
+    - Moneda Arcade de Oro Cósmico (`cosmic_coin.svg`) con relieve troquelado.
+    - Huevo Astral Místico (`cosmic_egg.svg`) con filigranas de oro y fisuras de nebulosa.
+  - Plan maestro de arte gráfico: `FINAL_VISUAL_ENVIRONMENT_PLAN.md`.
+  - Estilos CSS para avatares con marcos de carta coleccionable, animación de rebote y destellos `drop-shadow`.
+- **Publicación Oficial del Repositorio:**
+  - Código fuente, flujos CI/CD y activos sincronizados en GitHub bajo `MaciasSM2/cosmic-pinball-critters`.
+
+### Modificado
+- `package.json`: Incremento a versión `1.2.0`.
+- `android/app/build.gradle`: Actualización a `versionCode 3` y `versionName 1.2.0`.
+- `README.md` & `EMERGENCY_RECOVERY.md`: Documentación completa de la versión 1.2.0.
+
+---
+
 ## [1.1.0] - 2026-10-07
 
 ### Añadido

@@ -1,10 +1,11 @@
 # Cosmic Pinball: Clash of Critters
 
-[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](file:///c:/Users/Sebastian%20Macias/Documents/0.%20Programacion/Pinball/package.json)
-[![CI Build](https://img.shields.io/badge/CI-GitHub%20Actions-brightgreen.svg)](file:///c:/Users/Sebastian%20Macias/Documents/0.%20Programacion/Pinball/.github/workflows/ci.yml)
-[![Android APK](https://img.shields.io/badge/Android%20APK-Cloud%20Build-orange.svg)](file:///c:/Users/Sebastian%20Macias/Documents/0.%20Programacion/Pinball/.github/workflows/build-apk.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](file:///c:/Users/Sebastian%20Macias/Documents/0.%20Programacion/Pinball/LICENSE)
-[![Physics: Matter.js 240Hz](https://img.shields.io/badge/Physics-Matter.js%20240Hz-informational.svg)](file:///c:/Users/Sebastian%20Macias/Documents/0.%20Programacion/Pinball/src/engine/PinballPhysics.ts)
+[![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)](https://github.com/MaciasSM2/cosmic-pinball-critters)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-MaciasSM2%2Fcosmic--pinball--critters-black.svg?logo=github)](https://github.com/MaciasSM2/cosmic-pinball-critters)
+[![CI Build](https://github.com/MaciasSM2/cosmic-pinball-critters/actions/workflows/ci.yml/badge.svg)](https://github.com/MaciasSM2/cosmic-pinball-critters/actions/workflows/ci.yml)
+[![Android APK](https://img.shields.io/badge/Android%20APK-Cloud%20Build-orange.svg)](https://github.com/MaciasSM2/cosmic-pinball-critters/actions/workflows/build-apk.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Physics: Matter.js 240Hz](https://img.shields.io/badge/Physics-Matter.js%20240Hz-informational.svg)](src/engine/PinballPhysics.ts)
 
 > Videojuego híbrido de alto rendimiento que fusiona el **Pinball Arcade Clásico Occidental**, la mecánica masiva de **Pachinko Asiático (Ráfaga continua de 15 Bolas)** y la progresión estratégica de un **RPG de Batalla de Criaturas** (*Creature Collector*).
 
@@ -91,10 +92,12 @@ Pinball/
 ├── android/                     # Proyecto nativo generado por Capacitor Android
 │   ├── app/
 │   │   ├── src/main/AndroidManifest.xml # Orientación vertical, hardware-accel
-│   │   └── build.gradle         # versionCode 2, versionName "1.1.0"
+│   │   └── build.gradle         # versionCode 3, versionName "1.2.0"
 │   └── gradlew                  # Wrapper de compilación Gradle
 ├── public/
 │   ├── assets/
+│   │   ├── critters/            # 6 Ilustraciones vectoriales (Ignis, Aquara, Golemix, Zephyra, Umbra, Solaris)
+│   │   ├── items/               # 5 Gemas cristalinas, moneda de oro y huevo astral
 │   │   ├── pinball_playfield_bg.jpg # Textura de fondo del tablero (9:16)
 │   │   └── boss_titan_gorgon.jpg    # Retrato de alta resolución del Titán
 │   └── manifest.json            # Manifiesto PWA para instalación móvil WebAPK
@@ -116,12 +119,12 @@ Pinball/
 │   ├── gravify.ps1              # Script de validación de compilación y checkpoint
 │   └── caveman.ps1              # Protocolo de compresión y eficiencia
 ├── FINAL_VISUAL_ENVIRONMENT_PLAN.md # Plan maestro del entorno visual final y activos gráficos
-├── CHANGELOG.md                 # Registro histórico de versiones v1.0.0 y v1.1.0
+├── CHANGELOG.md                 # Registro histórico de versiones v1.0.0, v1.1.0 y v1.2.0
 ├── CONTRIBUTING.md              # Normas y guías para colaboradores
 ├── EMERGENCY_RECOVERY.md        # Documento maestro de contingencia ante caídas de sesión
 ├── AGENTS.md                    # Directivas activas de herramientas Gravify y Caveman
 ├── LICENSE                      # Licencia permisiva de código abierto MIT
-├── package.json                 # v1.1.0, scripts de desarrollo y dependencias
+├── package.json                 # v1.2.0, scripts de desarrollo y dependencias
 └── README.md                    # Este documento
 ```
 
