@@ -75,6 +75,23 @@ Consulta EMERGENCY_RECOVERY.md y procede con el siguiente requerimiento solicita
   - Historial de cambios: `CHANGELOG.md` (v1.0.0 y v1.1.0).
   - Documentación unificada con badges en `README.md`.
 
+### Hito 8: Metajuego RPG Expandido, Invocación Astral y Modales de Botín
+- **Altar de Invocación Cósmica (Gacha de Huevos):**
+  - Sistema de eclosión de huevos (`hatchCosmicEgg`) por 500 oro o 5 gemas de vacío.
+  - Expansión de catálogo a 6 criaturas con rarezas (Común, Rara, Épica, Legendaria):
+    - *Umbra* (Vacío 🔮, Épica): Habilidad *Vórtice Gravitacional*.
+    - *Solaris* (Luz Astral ☀️, Legendaria): Habilidad *Supernova Radiante*.
+- **Sistema de Nivel y Atributos (Level-Up):**
+  - Botón interactivo de subida de nivel `[▲ NV]` con coste de oro y gemas elementales.
+  - Escalado dinámico de Daño, Vida Máxima y Maná.
+- **Audio Procedural Web Audio API:**
+  - Fanfarrias añadidas para subida de nivel (`playLevelUp`), derrota del jefe (`playBossDefeated`), eclosión de huevo (`playEggHatch`) y jackpot x10 (`playJackpotFanfare`).
+- **Modales Arcade de Inmersión:**
+  - Modal de Eclosión Astral con aura elemental y animaciones.
+  - Modal de Fin de Partida / Victoria con desglose de daño infligido al jefe, botín y récords.
+- **Persistencia Total en LocalStorage:**
+  - Guardado y recuperación automática de oro cósmico, gemas elementales, escuadrón y récords.
+
 ---
 
 ## 🛠️ Estado Técnico del Entorno

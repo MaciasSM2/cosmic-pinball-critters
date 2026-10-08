@@ -62,6 +62,17 @@
               <!-- Renderizado de gemas elementales ganadas en la mesa -->
             </div>
           </div>
+
+          <div class="panel-section-title mt-4">
+            <span class="icon">✨</span> ALTAR DE INVOCACIÓN
+          </div>
+          <div class="summon-shrine-card">
+            <div class="shrine-desc">Eclosiona huevos astrales para desbloquear crías legendarias (Umbra, Solaris) o subir niveles de poder.</div>
+            <button id="btn-hatch-egg" class="btn-summon-egg">
+              <span class="egg-icon">🥚</span> Eclosionar Huevo Astral
+              <span class="cost-badge">500🪙 o 5🔮</span>
+            </button>
+          </div>
         </aside>
 
         <!-- Columna Central: Campo de Juego de Pinball (9:16) -->
@@ -227,6 +238,59 @@
         </aside>
 
       </main>
+
+      <!-- Modal de Invocación / Eclosión de Huevo -->
+      <div id="modal-summon" class="modal-overlay hidden">
+        <div class="modal-card modal-summon-card">
+          <div class="modal-header">
+            <span class="modal-tag">ECLOSIÓN ASTRAL</span>
+            <button class="btn-close-modal" id="btn-close-summon">✕</button>
+          </div>
+          <div class="summon-animation-stage">
+            <div class="summon-aura" id="summon-aura"></div>
+            <div class="summon-critter-avatar" id="summon-avatar">🥚</div>
+          </div>
+          <h2 class="summon-critter-name" id="summon-name">Eclosionando...</h2>
+          <div class="summon-rarity-badge" id="summon-rarity">ÉPICA</div>
+          <p class="summon-message" id="summon-message">¡Una nueva criatura se ha unido a tu escuadrón!</p>
+          <div class="summon-stats-row" id="summon-stats"></div>
+          <button class="btn-modal-action" id="btn-confirm-summon">¡CONTINUAR!</button>
+        </div>
+      </div>
+
+      <!-- Modal de Fin de Partida / Resumen de Botín -->
+      <div id="modal-gameover" class="modal-overlay hidden">
+        <div class="modal-card modal-gameover-card">
+          <div class="modal-header">
+            <span class="modal-tag" id="gameover-tag">FIN DE PARTIDA</span>
+            <button class="btn-close-modal" id="btn-close-gameover">✕</button>
+          </div>
+          <h2 class="gameover-title" id="gameover-title">RESUMEN DE EXPEDICIÓN</h2>
+          <div class="gameover-stats-grid">
+            <div class="stat-box">
+              <span class="stat-lbl">Puntuación</span>
+              <span class="stat-val" id="stat-run-score">000000</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-lbl">Récord</span>
+              <span class="stat-val highlight" id="stat-run-high">000000</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-lbl">Oro Ganado</span>
+              <span class="stat-val gold" id="stat-run-gold">+0 🪙</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-lbl">Daño al Titán</span>
+              <span class="stat-val damage" id="stat-run-damage">0 💥</span>
+            </div>
+          </div>
+          <div class="gameover-actions">
+            <button class="btn-modal-action" id="btn-gameover-restart">🚀 Jugar de Nuevo</button>
+            <button class="btn-modal-secondary" id="btn-gameover-shrine">✨ Altar de Invocación</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </body>
 </html>

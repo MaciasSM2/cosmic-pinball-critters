@@ -34,7 +34,13 @@ export class GameManager {
     void: 0
   };
 
-  // Escuadrón de Criaturas (Inspirado en Clash of Critters)
+  // Estadísticas de la partida en curso
+  public runDamageDealt = 0;
+  public runGoldEarned = 0;
+  public runBossesDefeated = 0;
+  public totalBossesDefeated = 0;
+
+  // Escuadrón Extendido de Criaturas (Inspirado en Clash of Critters)
   public critters: CritterStats[] = [
     {
       id: 'critter_fire',
@@ -48,7 +54,9 @@ export class GameManager {
       maxMana: 100,
       abilityName: 'Lluvia de Meteoros',
       abilityDescription: 'Causa 1200 de daño al Jefe y multiplica los bumpers por x2 durante 8s.',
-      damage: 1200
+      damage: 1200,
+      rarity: 'common',
+      unlocked: true
     },
     {
       id: 'critter_water',
@@ -62,7 +70,9 @@ export class GameManager {
       maxMana: 100,
       abilityName: 'Burbuja Guardiana',
       abilityDescription: 'Activa un escudo salvavidas en el drenaje inferior que rescata la bola 1 vez.',
-      damage: 600
+      damage: 600,
+      rarity: 'common',
+      unlocked: true
     },
     {
       id: 'critter_earth',
@@ -76,7 +86,9 @@ export class GameManager {
       maxMana: 100,
       abilityName: 'Terremoto de Gemas',
       abilityDescription: 'Extrae 50 gemas y genera una sacudida masiva que centra la bola en la mesa.',
-      damage: 800
+      damage: 800,
+      rarity: 'rare',
+      unlocked: true
     },
     {
       id: 'critter_wind',
@@ -90,9 +102,48 @@ export class GameManager {
       maxMana: 100,
       abilityName: 'Tornado Multibola',
       abilityDescription: 'Genera una esfera etérea adicional en juego de inmediato.',
-      damage: 700
+      damage: 700,
+      rarity: 'rare',
+      unlocked: true
+    },
+    {
+      id: 'critter_void',
+      name: 'Umbra',
+      element: 'void',
+      level: 1,
+      avatarIcon: '🔮',
+      currentHp: 200,
+      maxHp: 200,
+      currentMana: 20,
+      maxMana: 100,
+      abilityName: 'Vórtice Gravitacional',
+      abilityDescription: 'Genera un agujero negro que absorbe bolas y las lanza a velocidad triple causando 1800 daño.',
+      damage: 1800,
+      rarity: 'epic',
+      unlocked: false
+    },
+    {
+      id: 'critter_light',
+      name: 'Solaris',
+      element: 'classic',
+      level: 1,
+      avatarIcon: '☀️',
+      currentHp: 250,
+      maxHp: 250,
+      currentMana: 10,
+      maxMana: 100,
+      abilityName: 'Supernova Radiante',
+      abilityDescription: 'Desata un destello solar supremo que recarga el 100% de maná a todos los aliados y causa 2500 daño.',
+      damage: 2500,
+      rarity: 'legendary',
+      unlocked: false
     }
   ];
+
+  // Callbacks de Eventos UI
+  public onGameOver?: (stats: { score: number; highScore: number; goldEarned: number; bossDamage: number; bossesDefeated: number }) => void;
+  public onBossDefeated?: (bossName: string, tier: number) => void;
+  public onCritterUpdated?: () => void;
 
   // Jefe de la Mesa / Evento Activo
   public activeBoss: ActiveBoss = {
@@ -138,28 +189,172 @@ export class GameManager {
     this.physics = new PinballPhysics(this.currentDaily.tableConfig, callbacks);
     this.renderer = new PinballRenderer(canvas, this.physics, this.currentDaily.tableConfig);
 
-    this.loadHighScore();
+    this.loadRpgProgress();
     this.setupEventListeners();
   }
 
-  private loadHighScore() {
+  // Carga persistente de datos (LocalStorage)
+  public loadRpgProgress() {
     try {
-      const saved = localStorage.getItem('pinball_high_score');
-      if (saved) this.highScore = parseInt(saved, 10);
+      const savedHigh = localStorage.getItem('pinball_high_score');
+      if (savedHigh) this.highScore = parseInt(savedHigh, 10);
+
+      const savedGold = localStorage.getItem('pinball_rpg_gold');
+      if (savedGold) this.goldCoins = parseInt(savedGold, 10);
+
+      const savedGems = localStorage.getItem('pinball_rpg_gems');
+      if (savedGems) {
+        this.elementalGems = { ...this.elementalGems, ...JSON.parse(savedGems) };
+      }
+
+      const savedBossCount = localStorage.getItem('pinball_bosses_defeated');
+      if (savedBossCount) this.totalBossesDefeated = parseInt(savedBossCount, 10);
+
+      const savedCritters = localStorage.getItem('pinball_rpg_critters');
+      if (savedCritters) {
+        const loaded: Partial<CritterStats>[] = JSON.parse(savedCritters);
+        loaded.forEach((savedC) => {
+          const existing = this.critters.find((c) => c.id === savedC.id);
+          if (existing) {
+            if (savedC.level !== undefined) existing.level = savedC.level;
+            if (savedC.damage !== undefined) existing.damage = savedC.damage;
+            if (savedC.maxHp !== undefined) existing.maxHp = savedC.maxHp;
+            if (savedC.maxMana !== undefined) existing.maxMana = savedC.maxMana;
+            if (savedC.unlocked !== undefined) existing.unlocked = savedC.unlocked;
+          }
+        });
+      }
     } catch {
-      // ignore
+      // Ignorar fallos de parsing
     }
   }
 
-  private saveHighScore() {
-    if (this.score > this.highScore) {
-      this.highScore = this.score;
-      try {
-        localStorage.setItem('pinball_high_score', this.highScore.toString());
-      } catch {
-        // ignore
-      }
+  // Guardado persistente continuo de progreso
+  public saveRpgProgress() {
+    try {
+      localStorage.setItem('pinball_high_score', this.highScore.toString());
+      localStorage.setItem('pinball_rpg_gold', this.goldCoins.toString());
+      localStorage.setItem('pinball_rpg_gems', JSON.stringify(this.elementalGems));
+      localStorage.setItem('pinball_bosses_defeated', this.totalBossesDefeated.toString());
+      localStorage.setItem(
+        'pinball_rpg_critters',
+        JSON.stringify(
+          this.critters.map((c) => ({
+            id: c.id,
+            level: c.level,
+            damage: c.damage,
+            maxHp: c.maxHp,
+            maxMana: c.maxMana,
+            unlocked: c.unlocked
+          }))
+        )
+      );
+    } catch {
+      // Ignorar fallos de LocalStorage
     }
+  }
+
+  // Cálculo de coste de mejora para criaturas
+  public getCritterUpgradeCost(critterIndex: number) {
+    const critter = this.critters[critterIndex];
+    if (!critter) return { gold: 9999, gems: 999, element: 'fire', canAfford: false };
+
+    const goldCost = Math.round(120 * Math.pow(1.3, critter.level));
+    const gemCost = Math.round(4 + critter.level * 1.5);
+    const gemElement = critter.element === 'classic' ? 'void' : critter.element;
+    const currentGems = this.elementalGems[gemElement] || 0;
+
+    const canAfford = this.goldCoins >= goldCost && currentGems >= gemCost;
+    return { gold: goldCost, gems: gemCost, element: gemElement, canAfford };
+  }
+
+  // Subir nivel a una criatura
+  public upgradeCritter(critterIndex: number): boolean {
+    const critter = this.critters[critterIndex];
+    if (!critter || !critter.unlocked) return false;
+
+    const cost = this.getCritterUpgradeCost(critterIndex);
+    if (!cost.canAfford) return false;
+
+    // Descontar costes
+    this.goldCoins -= cost.gold;
+    this.elementalGems[cost.element] -= cost.gems;
+
+    // Mejorar atributos
+    critter.level++;
+    critter.damage = Math.round(critter.damage * 1.25);
+    critter.maxHp += 25;
+    critter.currentHp = critter.maxHp;
+    critter.maxMana = Math.min(150, critter.maxMana + 5);
+
+    // Audio y feedback
+    soundEngine.playLevelUp();
+    this.saveRpgProgress();
+    this.onCritterUpdated?.();
+
+    this.renderer.addScorePopup(`▲ ${critter.name} NV.${critter.level}!`, 250, 420, '#ffd200');
+    confetti({
+      particleCount: 40,
+      spread: 50,
+      origin: { y: 0.6 }
+    });
+
+    return true;
+  }
+
+  // Eclosionar Huevo Astral en el Altar de Invocación
+  public hatchCosmicEgg(): { critter: CritterStats; isNewUnlock: boolean; bonusLevels: number } | null {
+    const goldCost = 500;
+    const voidGemsCost = 5;
+
+    // Si tiene suficiente oro o gemas de vacío
+    const canAffordWithGold = this.goldCoins >= goldCost;
+    const canAffordWithGems = (this.elementalGems['void'] || 0) >= voidGemsCost;
+
+    if (!canAffordWithGold && !canAffordWithGems) return null;
+
+    if (canAffordWithGold) {
+      this.goldCoins -= goldCost;
+    } else {
+      this.elementalGems['void'] -= voidGemsCost;
+    }
+
+    // Ruleta de invocación con probabilidades:
+    // 50% criatura común, 30% rara, 15% épica (Umbra), 5% legendaria (Solaris)
+    const roll = Math.random() * 100;
+    let chosenId = 'critter_fire';
+
+    if (roll < 25) chosenId = 'critter_fire';
+    else if (roll < 50) chosenId = 'critter_water';
+    else if (roll < 68) chosenId = 'critter_earth';
+    else if (roll < 82) chosenId = 'critter_wind';
+    else if (roll < 95) chosenId = 'critter_void';
+    else chosenId = 'critter_light';
+
+    const critter = this.critters.find((c) => c.id === chosenId)!;
+    const isNewUnlock = !critter.unlocked;
+    let bonusLevels = 0;
+
+    if (isNewUnlock) {
+      critter.unlocked = true;
+    } else {
+      bonusLevels = critter.rarity === 'legendary' ? 3 : critter.rarity === 'epic' ? 2 : 1;
+      critter.level += bonusLevels;
+      critter.damage = Math.round(critter.damage * (1 + bonusLevels * 0.15));
+      critter.maxHp += bonusLevels * 20;
+    }
+
+    soundEngine.playEggHatch();
+    this.saveRpgProgress();
+    this.onCritterUpdated?.();
+
+    confetti({
+      particleCount: 80,
+      spread: 80,
+      origin: { y: 0.5 }
+    });
+
+    return { critter, isNewUnlock, bonusLevels };
   }
 
   // Cambio de mesa para probar los 7 días y variantes
@@ -198,7 +393,10 @@ export class GameManager {
   private handleScoreAdd(points: number, element: string, pos: { x: number; y: number }) {
     const finalPoints = points * this.multiplier;
     this.score += finalPoints;
-    this.saveHighScore();
+    if (this.score > this.highScore) {
+      this.highScore = this.score;
+    }
+    this.saveRpgProgress();
     this.comboStreak++;
 
     // Subir multiplicador cada 10 combos
@@ -208,7 +406,9 @@ export class GameManager {
     }
 
     // Monedas ganadas
-    this.goldCoins += Math.round(finalPoints / 100);
+    const coinsEarned = Math.round(finalPoints / 100);
+    this.goldCoins += coinsEarned;
+    this.runGoldEarned += coinsEarned;
 
     // Gemas elementales
     if (element in this.elementalGems) {
@@ -226,7 +426,7 @@ export class GameManager {
       try { navigator.vibrate(10); } catch { /* ignore */ }
     }
 
-    const critter = this.critters.find((c) => c.element === bumper.element);
+    const critter = this.critters.find((c) => c.element === bumper.element && c.unlocked);
     if (critter) {
       critter.currentMana = Math.min(critter.maxMana, critter.currentMana + 8);
       if (critter.currentMana === critter.maxMana) {
@@ -243,7 +443,9 @@ export class GameManager {
     if (hole.type === 'summon') {
       // Hoyo de Invocación: Carga masiva de maná para todo el equipo + gemas
       this.critters.forEach((c) => {
-        c.currentMana = Math.min(c.maxMana, c.currentMana + 35);
+        if (c.unlocked) {
+          c.currentMana = Math.min(c.maxMana, c.currentMana + 35);
+        }
       });
       this.renderer.addScorePopup('¡INVOCACIÓN +35 MANÁ!', hole.x, hole.y - 25, '#38bdf8');
       this.renderer.addSparks(hole.x, hole.y, '#38bdf8', 25);
@@ -268,8 +470,11 @@ export class GameManager {
   // Rebote en Clavo de Pachinko (Peg)
   private handlePegHit(peg: PegConfig) {
     this.renderer.addSparks(peg.x, peg.y, '#ffd200', 3);
-    // Carga sutil de maná para la criatura líder
-    this.critters[0].currentMana = Math.min(this.critters[0].maxMana, this.critters[0].currentMana + 1);
+    // Carga sutil de maná para la criatura líder desbloqueada
+    const leader = this.critters.find((c) => c.unlocked);
+    if (leader) {
+      leader.currentMana = Math.min(leader.maxMana, leader.currentMana + 1);
+    }
   }
 
   // Entrada en una de las 5 Ranuras Inferiores (Bottom Slots estilo Clash of Critters)
@@ -285,6 +490,7 @@ export class GameManager {
       // Jackpot Central X10 - Ataque Masivo Directo al Jefe
       const jackpotDamage = 2200 * (slot.multiplier / 2);
       this.damageBoss(jackpotDamage);
+      soundEngine.playJackpotFanfare();
       this.renderer.addScorePopup(`★ JACKPOT x10! -${jackpotDamage} ★`, 250, 320, '#ffd200');
       this.renderer.addSparks(slot.x, slot.y, '#ffd200', 35);
       confetti({
@@ -295,15 +501,19 @@ export class GameManager {
     } else if (slot.rewardType === 'mana') {
       // Recarga de Maná a todo el escuadrón
       this.critters.forEach((c) => {
-        c.currentMana = Math.min(c.maxMana, c.currentMana + 15 * (slot.multiplier / 2));
+        if (c.unlocked) {
+          c.currentMana = Math.min(c.maxMana, c.currentMana + 15 * (slot.multiplier / 2));
+        }
       });
       this.renderer.addScorePopup(`+MANÁ x${slot.multiplier}`, slot.x, slot.y - 25, slot.color);
     } else if (slot.rewardType === 'gems') {
       this.elementalGems[slot.element] = (this.elementalGems[slot.element] || 0) + 3;
       this.renderer.addScorePopup(`+3 GEMAS`, slot.x, slot.y - 25, slot.color);
     } else if (slot.rewardType === 'gold') {
-      this.goldCoins += 250 * slot.multiplier;
-      this.renderer.addScorePopup(`+${250 * slot.multiplier} ORO`, slot.x, slot.y - 25, slot.color);
+      const g = 250 * slot.multiplier;
+      this.goldCoins += g;
+      this.runGoldEarned += g;
+      this.renderer.addScorePopup(`+${g} ORO`, slot.x, slot.y - 25, slot.color);
     }
   }
 
@@ -325,10 +535,16 @@ export class GameManager {
 
   // Daño infligido al Jefe de la Mesa
   public damageBoss(amount: number) {
+    this.runDamageDealt += amount;
     this.activeBoss.currentHp = Math.max(0, this.activeBoss.currentHp - amount);
 
     if (this.activeBoss.currentHp <= 0) {
       // ¡Jefe Derrotado!
+      this.runBossesDefeated++;
+      this.totalBossesDefeated++;
+      soundEngine.playBossDefeated();
+      this.saveRpgProgress();
+
       this.renderer.addScorePopup('¡JEFE DERROTADO!', 250, 300, '#ffd200');
       confetti({
         particleCount: 80,
@@ -338,19 +554,24 @@ export class GameManager {
 
       this.score += 25000;
       this.goldCoins += 500;
+      this.runGoldEarned += 500;
 
-      // Subir de nivel a las criaturas
+      // Subir de nivel a las criaturas desbloqueadas
       this.critters.forEach((c) => {
-        c.level++;
-        c.maxHp += 20;
-        c.damage += 150;
+        if (c.unlocked) {
+          c.level++;
+          c.maxHp += 20;
+          c.damage += 150;
+        }
       });
+      this.onCritterUpdated?.();
+      this.onBossDefeated?.(this.activeBoss.name, this.totalBossesDefeated);
 
       // Respawn del jefe con mayor dificultad
       setTimeout(() => {
         this.activeBoss.maxHp = Math.round(this.activeBoss.maxHp * 1.3);
         this.activeBoss.currentHp = this.activeBoss.maxHp;
-        this.renderer.addScorePopup(`¡JEFE NV.${this.critters[0].level} APARECIÓ!`, 250, 300, '#ef4444');
+        this.renderer.addScorePopup(`¡JEFE NV.${this.totalBossesDefeated + 1} APARECIÓ!`, 250, 300, '#ef4444');
       }, 3500);
     }
   }
@@ -358,7 +579,7 @@ export class GameManager {
   // Activación de Habilidad de Criatura por el jugador
   public castCritterAbility(index: number) {
     const critter = this.critters[index];
-    if (!critter || critter.currentMana < critter.maxMana) return;
+    if (!critter || !critter.unlocked || critter.currentMana < critter.maxMana) return;
 
     critter.currentMana = 0;
     soundEngine.playCreatureAbility(critter.element);
@@ -377,10 +598,22 @@ export class GameManager {
       this.physics.nudge(0, -1);
       this.damageBoss(critter.damage);
       this.goldCoins += 150;
+      this.runGoldEarned += 150;
     } else if (critter.id === 'critter_wind') {
       // Zephyra: Multiball Tornado
       this.physics.spawnBall(250, 650);
       this.renderer.addScorePopup('⚡ BOLA EXTRA!', 250, 650, '#fbbf24');
+    } else if (critter.id === 'critter_void') {
+      // Umbra: Vórtice Gravitacional
+      this.damageBoss(critter.damage);
+      this.physics.nudge(0, -2);
+      this.renderer.addSparks(250, 300, '#a855f7', 50);
+    } else if (critter.id === 'critter_light') {
+      // Solaris: Supernova Radiante
+      this.damageBoss(critter.damage);
+      this.critters.forEach((c) => { if (c.unlocked) c.currentMana = c.maxMana; });
+      this.physics.spawnBall(250, 500);
+      this.renderer.addScorePopup('☀️ SUPERNOVA!', 250, 300, '#fef08a');
     }
   }
 
@@ -405,7 +638,15 @@ export class GameManager {
         }, 1200);
       } else {
         // Fin de la partida
+        this.saveRpgProgress();
         this.renderer.addScorePopup('FIN DE PARTIDA', 250, 400, '#ef4444');
+        this.onGameOver?.({
+          score: this.score,
+          highScore: this.highScore,
+          goldEarned: this.runGoldEarned,
+          bossDamage: this.runDamageDealt,
+          bossesDefeated: this.runBossesDefeated
+        });
       }
     }
   }
@@ -430,6 +671,9 @@ export class GameManager {
     this.multiplier = 1;
     this.comboStreak = 0;
     this.ballsRemaining = 3;
+    this.runDamageDealt = 0;
+    this.runGoldEarned = 0;
+    this.runBossesDefeated = 0;
     this.physics.balls.forEach((b) => Matter.Composite.remove(this.physics.engine.world, b));
     this.physics.balls = [];
     this.physics.capturedBalls.clear();

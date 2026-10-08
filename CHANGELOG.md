@@ -17,6 +17,13 @@ El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/
   - `.github/ISSUE_TEMPLATE/feature_request.md`: Plantilla para propuestas de nuevas características.
   - `.github/pull_request_template.md`: Protocolo de verificación para solicitudes de extracción.
   - `CONTRIBUTING.md`: Guía de contribución para el repositorio.
+- **Metajuego RPG Expandido & Altar de Invocación Astral:**
+  - Altar de Invocación con ruleta de eclosión de huevos por oro o gemas de vacío (`hatchCosmicEgg`).
+  - 2 Nuevas criaturas míticas añadidas: *Umbra* (Vacío 🔮, Épica) y *Solaris* (Luz Astral ☀️, Legendaria).
+  - Sistema de subida de nivel interactivo (`[▲ NV]`) con coste dinámico en oro y gemas del elemento afín.
+  - Modales arcade para eclosión de huevo (con aura animada) y resumen de fin de partida (score, récord, oro y daño al jefe).
+  - Nuevas síntesis de audio procedural en Web Audio API: fanfarria de nivel, victoria del jefe, eclosión mística y jackpot x10.
+  - Persistencia completa en LocalStorage de oro, gemas, escuadrón, jefes derrotados y récord.
 - **Licencia:** Licencia permisiva MIT añadida formalmente en `LICENSE`.
 - **Sincronización de Versión Nativa Android:** Actualización de `versionCode 2` y `versionName 1.1.0` en `android/app/build.gradle`.
 

@@ -110,6 +110,8 @@ export interface CritterStats {
   abilityName: string;
   abilityDescription: string;
   damage: number;
+  rarity?: 'common' | 'rare' | 'epic' | 'legendary';
+  unlocked?: boolean;
 }
 
 export interface ActiveBoss {

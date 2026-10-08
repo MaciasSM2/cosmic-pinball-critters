@@ -463,6 +463,125 @@ export class PinballAudio {
     osc.start(t);
     osc.stop(t + 0.07);
   }
+
+  // Fanfarria de Subida de Nivel (Level Up)
+  public playLevelUp() {
+    if (this.isMuted) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
+    notes.forEach((freq, idx) => {
+      if (!this.ctx) return;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const noteTime = t + idx * 0.08;
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, noteTime);
+
+      gain.gain.setValueAtTime(0.3, noteTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, noteTime + 0.28);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(noteTime);
+      osc.stop(noteTime + 0.3);
+    });
+  }
+
+  // Fanfarria de Victoria contra el Jefe (Boss Defeated)
+  public playBossDefeated() {
+    if (this.isMuted) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    const chords = [
+      [440, 554.37, 659.25], // A mayor
+      [493.88, 622.25, 739.99], // B mayor
+      [587.33, 739.99, 880]  // D mayor triunfal
+    ];
+
+    chords.forEach((chord, cIdx) => {
+      const chordTime = t + cIdx * 0.18;
+      chord.forEach((freq) => {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freq, chordTime);
+
+        gain.gain.setValueAtTime(0.18, chordTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, chordTime + 0.35);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(chordTime);
+        osc.stop(chordTime + 0.36);
+      });
+    });
+  }
+
+  // Eclosión Mística de Huevo Astral (Gacha / Invocación)
+  public playEggHatch() {
+    if (this.isMuted) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    const arp = [587.33, 659.25, 783.99, 880, 1046.5, 1174.66, 1318.51];
+    arp.forEach((freq, idx) => {
+      if (!this.ctx) return;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const time = t + idx * 0.05;
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, time);
+
+      gain.gain.setValueAtTime(0.25, time);
+      gain.gain.exponentialRampToValueAtTime(0.001, time + 0.22);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(time);
+      osc.stop(time + 0.24);
+    });
+  }
+
+  // Fanfarria de Jackpot Dorado x10
+  public playJackpotFanfare() {
+    if (this.isMuted) return;
+    this.initContext();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    const notes = [659.25, 783.99, 987.77, 1174.66, 1318.51, 1567.98];
+    notes.forEach((freq, idx) => {
+      if (!this.ctx) return;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const noteTime = t + idx * 0.06;
+
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(freq, noteTime);
+
+      gain.gain.setValueAtTime(0.2, noteTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, noteTime + 0.25);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(noteTime);
+      osc.stop(noteTime + 0.26);
+    });
+  }
 }
 
 export const soundEngine = new PinballAudio();

@@ -319,6 +319,113 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* Altar de Invocación Astral */
+.summon-shrine-card {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 27, 75, 0.8));
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.15);
+}
+
+.shrine-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.btn-summon-egg {
+  background: linear-gradient(135deg, #a855f7, #6366f1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-family: var(--font-arcade);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.4);
+}
+
+.btn-summon-egg:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 22px rgba(168, 85, 247, 0.7);
+  border-color: #fff;
+}
+
+.btn-summon-egg .cost-badge {
+  background: rgba(0, 0, 0, 0.4);
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Criaturas: Rarezas, Bloqueadas y Botón de Subida de Nivel */
+.critter-card.locked {
+  opacity: 0.55;
+  filter: grayscale(0.5);
+  border-style: dashed;
+}
+
+.critter-rarity-pill {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rarity-common { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; }
+.rarity-rare { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
+.rarity-epic { background: rgba(168, 85, 247, 0.25); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4); }
+.rarity-legendary { background: rgba(255, 210, 0, 0.25); color: #fde047; border: 1px solid rgba(255, 210, 0, 0.5); box-shadow: 0 0 8px rgba(255, 210, 0, 0.3); }
+
+.critter-actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.btn-critter-upgrade {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: not-allowed;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-critter-upgrade.affordable {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.8), rgba(5, 150, 105, 0.9));
+  border-color: #34d399;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.btn-critter-upgrade.affordable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.7);
+}
+
 .gem-icon {
   font-size: 14px;
   margin-bottom: 2px;
@@ -910,4 +1017,248 @@ kbd {
   .canvas-wrapper {
     max-height: 72vh;
   }
+}
+
+/* Modales de Invocación y Fin de Partida */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(5, 8, 17, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.modal-overlay.hidden {
+  display: none !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-card {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.95));
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 440px;
+  padding: 24px;
+  box-shadow: 0 0 35px rgba(0, 242, 254, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.modal-tag {
+  font-family: var(--font-arcade);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: var(--neon-cyan);
+  background: rgba(0, 242, 254, 0.1);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 242, 254, 0.3);
+}
+
+.btn-close-modal {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.btn-close-modal:hover {
+  color: #fff;
+}
+
+/* Escenario de Invocación / Eclosión */
+.summon-animation-stage {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.summon-aura {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.6) 0%, transparent 70%);
+  animation: pulseAura 2s infinite alternate;
+}
+
+@keyframes pulseAura {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(1.3); opacity: 1; }
+}
+
+.summon-critter-avatar {
+  font-size: 64px;
+  z-index: 2;
+  animation: bounceAvatar 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes bounceAvatar {
+  0% { transform: translateY(-4px) scale(0.95); }
+  100% { transform: translateY(4px) scale(1.05); }
+}
+
+.summon-critter-name {
+  font-family: var(--font-arcade);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.summon-rarity-badge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 12px;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.summon-message {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.summon-stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+/* Modal Game Over / Resumen */
+.gameover-title {
+  font-family: var(--font-arcade);
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 18px;
+}
+
+.gameover-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.stat-box {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.stat-val {
+  font-family: var(--font-arcade);
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.stat-val.highlight { color: var(--neon-cyan); }
+.stat-val.gold { color: var(--neon-gold); }
+.stat-val.damage { color: #f43f5e; }
+
+.gameover-actions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.btn-modal-action {
+  flex: 1;
+  background: linear-gradient(135deg, var(--neon-cyan), #0284c7);
+  border: none;
+  color: #000;
+  font-family: var(--font-arcade);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+}
+
+.btn-modal-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.7);
+}
+
+.btn-modal-secondary {
+  flex: 1;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(168, 85, 247, 0.5);
+  color: #c084fc;
+  font-family: var(--font-arcade);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-modal-secondary:hover {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: #c084fc;
 }

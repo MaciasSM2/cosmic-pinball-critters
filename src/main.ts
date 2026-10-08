@@ -44,41 +44,85 @@ window.addEventListener('DOMContentLoaded', () => {
   const btnSoundToggle = document.getElementById('btn-sound-toggle')!;
   const btnRestart = document.getElementById('btn-restart')!;
 
-  // Render inicial de Criaturas
+  function getGemIcon(elem: string): string {
+    switch (elem) {
+      case 'fire': return '🔥';
+      case 'water': return '💧';
+      case 'earth': return '🌿';
+      case 'wind': return '⚡';
+      case 'void': return '🔮';
+      default: return '💎';
+    }
+  }
+
+  // Render de Criaturas con Sistema de Subida de Nivel y Rarezas
   function renderCrittersUI() {
     crittersList.innerHTML = '';
     game.critters.forEach((c, idx) => {
       const card = document.createElement('div');
-      card.className = `critter-card ${c.currentMana >= c.maxMana ? 'ready' : ''}`;
+      const isLocked = !c.unlocked;
+      card.className = `critter-card ${c.currentMana >= c.maxMana ? 'ready' : ''} ${isLocked ? 'locked' : ''}`;
       card.id = `critter-card-${idx}`;
 
       const elemColor =
         c.element === 'fire' ? '#ff3366' :
         c.element === 'water' ? '#00f2fe' :
-        c.element === 'earth' ? '#10b981' : '#fbbf24';
+        c.element === 'earth' ? '#10b981' :
+        c.element === 'wind' ? '#fbbf24' :
+        c.element === 'void' ? '#a855f7' : '#fef08a';
+
+      const rarity = c.rarity || 'common';
+      const cost = game.getCritterUpgradeCost(idx);
 
       card.innerHTML = `
         <div class="critter-header-row">
           <div class="critter-badge">
             <span class="critter-avatar">${c.avatarIcon}</span>
             <div>
-              <div class="critter-name">${c.name}</div>
-              <div class="critter-level">Nivel ${c.level} • ${c.element.toUpperCase()}</div>
+              <div class="critter-name">
+                ${c.name}
+                <span class="critter-rarity-pill rarity-${rarity}">${rarity}</span>
+              </div>
+              <div class="critter-level">
+                ${isLocked ? '🔒 BLOQUEADA' : `Nivel ${c.level} • DAÑO ${c.damage}`}
+              </div>
             </div>
           </div>
-          <button class="btn-critter-ability" data-index="${idx}">
-            [${idx + 1}] ACT
-          </button>
+          ${!isLocked ? `
+            <button class="btn-critter-ability" data-index="${idx}">
+              [${idx + 1 <= 4 ? idx + 1 : 'ACT'}]
+            </button>
+          ` : `
+            <span style="font-size: 10px; color: #a855f7; font-weight: 800;">ALTAR 🥚</span>
+          `}
         </div>
-        <div class="mana-bar-track">
-          <div class="mana-bar-fill" id="critter-mana-${idx}" style="width: ${(c.currentMana / c.maxMana) * 100}%; background: ${elemColor};"></div>
-        </div>
+        ${!isLocked ? `
+          <div class="mana-bar-track">
+            <div class="mana-bar-fill" id="critter-mana-${idx}" style="width: ${(c.currentMana / c.maxMana) * 100}%; background: ${elemColor};"></div>
+          </div>
+        ` : ''}
         <div class="critter-desc">${c.abilityDescription}</div>
+        ${!isLocked ? `
+          <div class="critter-actions-row">
+            <button class="btn-critter-upgrade ${cost.canAfford ? 'affordable' : ''}" data-index="${idx}" id="btn-upgrade-${idx}">
+              ▲ NV.${c.level + 1} (${cost.gold}🪙 ${cost.gems}${getGemIcon(cost.element)})
+            </button>
+          </div>
+        ` : ''}
       `;
 
-      card.querySelector('.btn-critter-ability')?.addEventListener('click', () => {
-        game.castCritterAbility(idx);
-      });
+      if (!isLocked) {
+        card.querySelector('.btn-critter-ability')?.addEventListener('click', () => {
+          game.castCritterAbility(idx);
+        });
+
+        card.querySelector(`#btn-upgrade-${idx}`)?.addEventListener('click', () => {
+          const ok = game.upgradeCritter(idx);
+          if (ok) {
+            renderCrittersUI();
+          }
+        });
+      }
 
       crittersList.appendChild(card);
     });
@@ -252,6 +296,90 @@ window.addEventListener('DOMContentLoaded', () => {
     game.trigger15BallBurst();
   });
 
+  // Modales y Altar de Invocación
+  const modalSummon = document.getElementById('modal-summon')!;
+  const modalGameover = document.getElementById('modal-gameover')!;
+  const btnCloseSummon = document.getElementById('btn-close-summon')!;
+  const btnConfirmSummon = document.getElementById('btn-confirm-summon')!;
+  const btnCloseGameover = document.getElementById('btn-close-gameover')!;
+  const btnGameoverRestart = document.getElementById('btn-gameover-restart')!;
+  const btnGameoverShrine = document.getElementById('btn-gameover-shrine')!;
+  const btnHatchEgg = document.getElementById('btn-hatch-egg');
+
+  btnHatchEgg?.addEventListener('click', () => {
+    const result = game.hatchCosmicEgg();
+    if (!result) {
+      game.renderer.addScorePopup('⚠️ ¡NECESITAS 500🪙 O 5🔮!', 250, 420, '#f43f5e');
+      return;
+    }
+
+    const { critter, isNewUnlock, bonusLevels } = result;
+    const summonAvatar = document.getElementById('summon-avatar')!;
+    const summonName = document.getElementById('summon-name')!;
+    const summonRarity = document.getElementById('summon-rarity')!;
+    const summonMsg = document.getElementById('summon-message')!;
+    const summonStats = document.getElementById('summon-stats')!;
+    const summonAura = document.getElementById('summon-aura')!;
+
+    summonAvatar.textContent = critter.avatarIcon;
+    summonName.textContent = critter.name;
+    const rarity = critter.rarity || 'common';
+    summonRarity.className = `summon-rarity-badge rarity-${rarity}`;
+    summonRarity.textContent = rarity.toUpperCase();
+
+    summonMsg.textContent = isNewUnlock
+      ? `¡Desbloqueaste a ${critter.name}! Se ha unido a tu escuadrón cósmico.`
+      : `¡Duplicado de ${critter.name}! +${bonusLevels} Niveles y Atributos aumentados.`;
+
+    summonStats.innerHTML = `
+      <span>Nivel: <strong>${critter.level}</strong></span>
+      <span>Daño: <strong>${critter.damage}</strong></span>
+      <span>Elemento: <strong>${critter.element.toUpperCase()}</strong></span>
+    `;
+
+    const elemColor =
+      critter.element === 'fire' ? '#ff3366' :
+      critter.element === 'water' ? '#00f2fe' :
+      critter.element === 'earth' ? '#10b981' :
+      critter.element === 'wind' ? '#fbbf24' :
+      critter.element === 'void' ? '#a855f7' : '#fef08a';
+    summonAura.style.background = `radial-gradient(circle, ${elemColor}99 0%, transparent 70%)`;
+
+    modalSummon.classList.remove('hidden');
+    renderCrittersUI();
+  });
+
+  btnCloseSummon?.addEventListener('click', () => modalSummon.classList.add('hidden'));
+  btnConfirmSummon?.addEventListener('click', () => modalSummon.classList.add('hidden'));
+
+  btnCloseGameover?.addEventListener('click', () => modalGameover.classList.add('hidden'));
+  btnGameoverRestart?.addEventListener('click', () => {
+    modalGameover.classList.add('hidden');
+    game.restartGame();
+  });
+  btnGameoverShrine?.addEventListener('click', () => {
+    modalGameover.classList.add('hidden');
+    document.getElementById('panel-critters')?.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  game.onGameOver = (stats) => {
+    const elScore = document.getElementById('stat-run-score');
+    const elHigh = document.getElementById('stat-run-high');
+    const elGold = document.getElementById('stat-run-gold');
+    const elDmg = document.getElementById('stat-run-damage');
+
+    if (elScore) elScore.textContent = stats.score.toString().padStart(6, '0');
+    if (elHigh) elHigh.textContent = stats.highScore.toString().padStart(6, '0');
+    if (elGold) elGold.textContent = `+${stats.goldEarned} 🪙`;
+    if (elDmg) elDmg.textContent = `${stats.bossDamage} 💥`;
+
+    modalGameover.classList.remove('hidden');
+  };
+
+  game.onCritterUpdated = () => {
+    renderCrittersUI();
+  };
+
   // Inicializar UI
   renderCrittersUI();
   renderGemsUI();
@@ -292,14 +420,20 @@ window.addEventListener('DOMContentLoaded', () => {
     magnetVal.textContent = `${magPercent}%`;
     magnetBarFill.style.width = `${magPercent}%`;
 
-    // Barras de Maná de Criaturas
+    // Barras de Maná y Costes de Criaturas
     game.critters.forEach((c, idx) => {
       const fill = document.getElementById(`critter-mana-${idx}`);
       if (fill) fill.style.width = `${(c.currentMana / c.maxMana) * 100}%`;
 
       const card = document.getElementById(`critter-card-${idx}`);
-      if (card) {
+      if (card && c.unlocked) {
         card.classList.toggle('ready', c.currentMana >= c.maxMana);
+      }
+
+      const btnUp = document.getElementById(`btn-upgrade-${idx}`);
+      if (btnUp && c.unlocked) {
+        const cost = game.getCritterUpgradeCost(idx);
+        btnUp.classList.toggle('affordable', cost.canAfford);
       }
     });
   }, 66);
