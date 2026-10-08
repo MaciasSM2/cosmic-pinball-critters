@@ -55,7 +55,9 @@
           </div>
           <div class="rewards-vault">
             <div class="vault-item">
-              <span class="vault-label">🪙 Oro Cósmico</span>
+              <span class="vault-label">
+                <img src="/assets/items/cosmic_coin.svg" alt="Oro" class="coin-icon-img" /> Oro Cósmico
+              </span>
               <span class="vault-value" id="val-gold">0</span>
             </div>
             <div class="gems-grid" id="gems-list">
@@ -67,10 +69,13 @@
             <span class="icon">✨</span> ALTAR DE INVOCACIÓN
           </div>
           <div class="summon-shrine-card">
-            <div class="shrine-desc">Eclosiona huevos astrales para desbloquear crías legendarias (Umbra, Solaris) o subir niveles de poder.</div>
+            <div class="shrine-desc">Eclosiona huevos astrales para desbloquear crías legendarias (Umbra, Solaris) o potenciar tu escuadrón.</div>
             <button id="btn-hatch-egg" class="btn-summon-egg">
-              <span class="egg-icon">🥚</span> Eclosionar Huevo Astral
-              <span class="cost-badge">500🪙 o 5🔮</span>
+              <span class="egg-icon-frame">
+                <img src="/assets/items/cosmic_egg.svg" alt="Huevo" class="egg-icon-img" />
+              </span>
+              <span>Eclosionar Huevo Astral</span>
+              <span class="cost-badge">500 <img src="/assets/items/cosmic_coin.svg" class="mini-coin-img" /> / 5 <img src="/assets/items/gem_void.svg" class="mini-gem-img" /></span>
             </button>
           </div>
         </aside>
@@ -248,7 +253,7 @@
           </div>
           <div class="summon-animation-stage">
             <div class="summon-aura" id="summon-aura"></div>
-            <div class="summon-critter-avatar" id="summon-avatar">🥚</div>
+            <img src="/assets/items/cosmic_egg.svg" id="summon-avatar" class="summon-critter-avatar-img" alt="Criatura Invocada" />
           </div>
           <h2 class="summon-critter-name" id="summon-name">Eclosionando...</h2>
           <div class="summon-rarity-badge" id="summon-rarity">ÉPICA</div>

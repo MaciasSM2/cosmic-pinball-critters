@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" width="100%" height="100%">
+  <defs>
+    <radialGradient id="eggNebula" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fdf4ff"/>
+      <stop offset="25%" stop-color="#d946ef"/>
+      <stop offset="60%" stop-color="#6b21a8"/>
+      <stop offset="100%" stop-color="#0f0728"/>
+    </radialGradient>
+    <linearGradient id="goldFiligree" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="45%" stop-color="#eab308"/>
+      <stop offset="85%" stop-color="#854d0e"/>
+      <stop offset="100%" stop-color="#fef9c3"/>
+    </linearGradient>
+    <filter id="eggGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Ambient Glow Behind Egg -->
+  <ellipse cx="100" cy="130" rx="85" ry="105" fill="#c084fc" opacity="0.3" filter="url(#eggGlow)"/>
+
+  <!-- Main Egg Silhouette (Oval with tapered top) -->
+  <path d="M100,18 C155,18 185,75 185,135 C185,195 145,225 100,225 C55,225 15,195 15,135 C15,75 45,18 100,18 Z" fill="url(#eggNebula)" stroke="url(#goldFiligree)" stroke-width="4"/>
+
+  <!-- Ornate Golden Bands & Filigree -->
+  <path d="M25,120 Q100,165 175,120" fill="none" stroke="url(#goldFiligree)" stroke-width="5" stroke-linecap="round"/>
+  <path d="M35,95 Q100,135 165,95" fill="none" stroke="url(#goldFiligree)" stroke-width="3" opacity="0.8"/>
+  <path d="M35,145 Q100,190 165,145" fill="none" stroke="url(#goldFiligree)" stroke-width="3" opacity="0.8"/>
+
+  <!-- Glowing Astral Fissures / Energy Cracks -->
+  <path d="M100,35 L95,65 L110,85 L102,115 L118,140" fill="none" stroke="#67e8f9" stroke-width="3" filter="url(#eggGlow)"/>
+  <path d="M95,65 L80,75 L75,98" fill="none" stroke="#67e8f9" stroke-width="2" filter="url(#eggGlow)"/>
+  <path d="M102,115 L88,135 L92,160" fill="none" stroke="#f472b6" stroke-width="2" filter="url(#eggGlow)"/>
+
+  <!-- Socketed Central Star Jewel -->
+  <polygon points="100,118 106,132 120,132 108,142 113,156 100,146 87,156 92,142 80,132 94,132" fill="#ffffff" filter="url(#eggGlow)"/>
+
+  <!-- Shimmer Highlights -->
+  <ellipse cx="65" cy="65" rx="20" ry="35" transform="rotate(-30 65 65)" fill="#ffffff" opacity="0.35"/>
+  <circle cx="55" cy="45" r="4" fill="#ffffff" opacity="0.8"/>
+</svg>

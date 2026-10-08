@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="fireFacet1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff1f2"/>
+      <stop offset="100%" stop-color="#f43f5e"/>
+    </linearGradient>
+    <linearGradient id="fireFacet2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#881337"/>
+    </linearGradient>
+    <filter id="gemGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  <!-- Outer Glow -->
+  <polygon points="50,8 88,32 74,88 26,88 12,32" fill="#e11d48" opacity="0.3" filter="url(#gemGlow)"/>
+  <!-- Facets -->
+  <polygon points="50,12 84,34 68,52 32,52 16,34" fill="url(#fireFacet1)"/>
+  <polygon points="50,12 32,52 68,52" fill="#fda4af"/>
+  <polygon points="16,34 32,52 26,84" fill="#be123c"/>
+  <polygon points="84,34 68,52 74,84" fill="#9f1239"/>
+  <polygon points="32,52 68,52 74,84 26,84" fill="url(#fireFacet2)"/>
+  <!-- Highlight -->
+  <polygon points="40,24 50,16 54,28 44,32" fill="#ffffff" opacity="0.85"/>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="windFacet1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="windFacet2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+    <filter id="windGemGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  <!-- Rhombus / Diamond Facet -->
+  <polygon points="50,10 90,50 50,90 10,50" fill="url(#windFacet1)" filter="url(#windGemGlow)"/>
+  <polygon points="50,22 78,50 50,78 22,50" fill="#fde047"/>
+  <polygon points="50,22 78,50 50,50" fill="#ffffff" opacity="0.6"/>
+  <polygon points="50,50 78,50 50,78" fill="url(#windFacet2)"/>
+  <polygon points="50,50 22,50 50,78" fill="#b45309"/>
+  <!-- Highlight -->
+  <polygon points="50,22 62,36 50,50 38,36" fill="#ffffff" opacity="0.9"/>
+</svg>

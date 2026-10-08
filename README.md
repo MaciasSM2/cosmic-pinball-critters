@@ -27,12 +27,17 @@ El juego combina la precisión cinética de **Space Pinball** (física balístic
 3. **Manipulación Activa del Tablero:**
    - **Empujón Físico (*Nudge*):** Sacudida de mesa en 3 direcciones con inercia instantánea y medidor estricto de 3 faltas de *Tilt*.
    - **Pulso Magnético (*Skill Steer*):** Campo cuántico controlable que curva la trayectoria hacia hoyos y ranuras deseadas en tiempo real.
-4. **Metajuego RPG de Criaturas:**
-   - Escuadrón de 4 criaturas (**Ignis, Aquara, Golemix, Zephyra**) cuyas barras de maná se cargan con cada impacto en la mesa para desatar meteoros, barreras de drenaje, terremotos y bolas extra.
+4. **Metajuego RPG de Criaturas y Altar de Invocación:**
+   - Escuadrón de 6 criaturas con rarezas (*Ignis, Aquara, Golemix, Zephyra, Umbra, Solaris*).
+   - Sistema de **Subida de Nivel (Level-Up)** con escalado de daño y salud mediante oro y gemas del elemento afín.
+   - **Altar de Invocación Astral (Gacha de Huevos):** Ruleta de eclosión de huevos para desbloquear criaturas míticas o duplicados con mejoras de EXP.
+   - Modales interactivos de resumen de botín, fin de partida y eclosión de huevo.
 5. **Calendario Semanal (7 Días) y 4 Eventos Cíclicos de 3 Días:**
    - **5 Variaciones Lun-Vie:** Caverna de Magma, Falla Abisal, Bastión de Gaia, Corredor de Zéfiro, Vórtice del Vacío.
    - **Fin de Semana Full Content:** Sábado y Domingo con todos los calabozos y bonus abiertos.
    - **4 Eventos Cíclicos de 3 Días:** Invasión Cósmica, Torneo del Flipper Dorado, Santuario de Crías Míticas, Falla de Gravedad Cero.
+6. **Plan de Entorno Visual Final:**
+   - Arquitectura gráfica documentada en [FINAL_VISUAL_ENVIRONMENT_PLAN.md](file:///c:/Users/Sebastian%20Macias/Documents/0.%20Programacion/Pinball/FINAL_VISUAL_ENVIRONMENT_PLAN.md) para reemplazar la iconografía plana por cartas coleccionables ilustradas y texturas arcade.
 
 ---
 
@@ -110,6 +115,7 @@ Pinball/
 ├── scripts/
 │   ├── gravify.ps1              # Script de validación de compilación y checkpoint
 │   └── caveman.ps1              # Protocolo de compresión y eficiencia
+├── FINAL_VISUAL_ENVIRONMENT_PLAN.md # Plan maestro del entorno visual final y activos gráficos
 ├── CHANGELOG.md                 # Registro histórico de versiones v1.0.0 y v1.1.0
 ├── CONTRIBUTING.md              # Normas y guías para colaboradores
 ├── EMERGENCY_RECOVERY.md        # Documento maestro de contingencia ante caídas de sesión

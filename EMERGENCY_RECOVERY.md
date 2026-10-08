@@ -92,6 +92,19 @@ Consulta EMERGENCY_RECOVERY.md y procede con el siguiente requerimiento solicita
 - **Persistencia Total en LocalStorage:**
   - Guardado y recuperación automática de oro cósmico, gemas elementales, escuadrón y récords.
 
+### Hito 9: Plan de Entorno Visual Final e Integración de Activos Gráficos Ilustrados
+- **Plan Maestro de Arte Gráfico:**
+  - Redacción y aprobación de `FINAL_VISUAL_ENVIRONMENT_PLAN.md`.
+- **Producción e Integración de 13 Activos Gráficos Vectoriales de Alta Fidelidad:**
+  - 6 Retratos de Criaturas: `critter_ignis.svg`, `critter_aquara.svg`, `critter_golemix.svg`, `critter_zephyra.svg`, `critter_umbra.svg`, `critter_solaris.svg`.
+  - 5 Gemas Elementales Cristalinas: `gem_fire.svg`, `gem_water.svg`, `gem_earth.svg`, `gem_wind.svg`, `gem_void.svg`.
+  - Moneda de Oro Arcade: `cosmic_coin.svg`.
+  - Huevo Místico del Altar: `cosmic_egg.svg`.
+- **Eliminación de Texto Plano y Emojis:**
+  - Reemplazo de todos los glifos tipográficos en tarjetas de criaturas, bóveda de recursos, botones de mejora y modales por gráficos ilustrados con efectos de resplandor.
+- **Validación Visual en Navegador:**
+  - Verificación exitosa en `http://127.0.0.1:5173/` de renderizado responsivo y alineación CSS.
+
 ---
 
 ## 🛠️ Estado Técnico del Entorno

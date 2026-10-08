@@ -46,16 +46,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function getGemIcon(elem: string): string {
     switch (elem) {
-      case 'fire': return '🔥';
-      case 'water': return '💧';
-      case 'earth': return '🌿';
-      case 'wind': return '⚡';
-      case 'void': return '🔮';
-      default: return '💎';
+      case 'fire': return '<img src="/assets/items/gem_fire.svg" class="mini-gem-img" alt="Fuego" />';
+      case 'water': return '<img src="/assets/items/gem_water.svg" class="mini-gem-img" alt="Agua" />';
+      case 'earth': return '<img src="/assets/items/gem_earth.svg" class="mini-gem-img" alt="Tierra" />';
+      case 'wind': return '<img src="/assets/items/gem_wind.svg" class="mini-gem-img" alt="Viento" />';
+      case 'void': return '<img src="/assets/items/gem_void.svg" class="mini-gem-img" alt="Vacío" />';
+      default: return '<img src="/assets/items/gem_void.svg" class="mini-gem-img" alt="Gema" />';
     }
   }
 
-  // Render de Criaturas con Sistema de Subida de Nivel y Rarezas
+  // Render de Criaturas con Sistema de Subida de Nivel y Retratos Ilustrados
   function renderCrittersUI() {
     crittersList.innerHTML = '';
     game.critters.forEach((c, idx) => {
@@ -77,7 +77,9 @@ window.addEventListener('DOMContentLoaded', () => {
       card.innerHTML = `
         <div class="critter-header-row">
           <div class="critter-badge">
-            <span class="critter-avatar">${c.avatarIcon}</span>
+            <span class="critter-avatar">
+              <img src="${c.avatarIcon}" alt="${c.name}" class="critter-avatar-img" />
+            </span>
             <div>
               <div class="critter-name">
                 ${c.name}
@@ -93,7 +95,7 @@ window.addEventListener('DOMContentLoaded', () => {
               [${idx + 1 <= 4 ? idx + 1 : 'ACT'}]
             </button>
           ` : `
-            <span style="font-size: 10px; color: #a855f7; font-weight: 800;">ALTAR 🥚</span>
+            <span class="critter-altar-badge">ALTAR 🥚</span>
           `}
         </div>
         ${!isLocked ? `
@@ -105,7 +107,7 @@ window.addEventListener('DOMContentLoaded', () => {
         ${!isLocked ? `
           <div class="critter-actions-row">
             <button class="btn-critter-upgrade ${cost.canAfford ? 'affordable' : ''}" data-index="${idx}" id="btn-upgrade-${idx}">
-              ▲ NV.${c.level + 1} (${cost.gold}🪙 ${cost.gems}${getGemIcon(cost.element)})
+              ▲ NV.${c.level + 1} (${cost.gold} <img src="/assets/items/cosmic_coin.svg" class="mini-coin-img" alt="Oro" /> ${cost.gems} ${getGemIcon(cost.element)})
             </button>
           </div>
         ` : ''}
@@ -128,19 +130,19 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Render inicial de Gemas
+  // Render inicial de Gemas con Iconos Ilustrados
   function renderGemsUI() {
     const gemMeta = [
-      { key: 'fire', icon: '🔥', label: 'Fuego' },
-      { key: 'water', icon: '💧', label: 'Agua' },
-      { key: 'earth', icon: '🌿', label: 'Tierra' },
-      { key: 'wind', icon: '⚡', label: 'Viento' },
-      { key: 'void', icon: '🔮', label: 'Vacío' }
+      { key: 'fire', icon: '/assets/items/gem_fire.svg', label: 'Fuego' },
+      { key: 'water', icon: '/assets/items/gem_water.svg', label: 'Agua' },
+      { key: 'earth', icon: '/assets/items/gem_earth.svg', label: 'Tierra' },
+      { key: 'wind', icon: '/assets/items/gem_wind.svg', label: 'Viento' },
+      { key: 'void', icon: '/assets/items/gem_void.svg', label: 'Vacío' }
     ];
 
     gemsList.innerHTML = gemMeta.map((g) => `
       <div class="gem-box">
-        <span class="gem-icon">${g.icon}</span>
+        <img src="${g.icon}" alt="${g.label}" class="gem-icon-img" />
         <span class="gem-count" id="gem-count-${g.key}">${game.elementalGems[g.key]}</span>
       </div>
     `).join('');
@@ -314,14 +316,14 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     const { critter, isNewUnlock, bonusLevels } = result;
-    const summonAvatar = document.getElementById('summon-avatar')!;
+    const summonAvatar = document.getElementById('summon-avatar') as HTMLImageElement;
     const summonName = document.getElementById('summon-name')!;
     const summonRarity = document.getElementById('summon-rarity')!;
     const summonMsg = document.getElementById('summon-message')!;
     const summonStats = document.getElementById('summon-stats')!;
     const summonAura = document.getElementById('summon-aura')!;
 
-    summonAvatar.textContent = critter.avatarIcon;
+    if (summonAvatar) summonAvatar.src = critter.avatarIcon;
     summonName.textContent = critter.name;
     const rarity = critter.rarity || 'common';
     summonRarity.className = `summon-rarity-badge rarity-${rarity}`;

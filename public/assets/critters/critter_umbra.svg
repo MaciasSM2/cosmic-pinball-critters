@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgVoid" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c084fc" stop-opacity="0.85"/>
+      <stop offset="50%" stop-color="#7e22ce" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#090014" stop-opacity="1"/>
+    </radialGradient>
+    <linearGradient id="voidMist" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e9d5ff"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#3b0764"/>
+    </linearGradient>
+    <filter id="voidGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background Base & Outer Ring -->
+  <circle cx="100" cy="100" r="95" fill="url(#bgVoid)" stroke="#a855f7" stroke-width="4"/>
+  <circle cx="100" cy="100" r="88" fill="none" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="10,5" opacity="0.6"/>
+
+  <!-- Cosmic Shadow Tendrils -->
+  <path d="M40,70 C15,30 30,10 60,30 C75,45 65,75 55,90 Z" fill="url(#voidMist)" opacity="0.8"/>
+  <path d="M160,70 C185,30 170,10 140,30 C125,45 135,75 145,90 Z" fill="url(#voidMist)" opacity="0.8"/>
+  <path d="M100,45 C80,10 120,10 100,45 Z" fill="#e9d5ff" filter="url(#voidGlow)"/>
+
+  <!-- Spectral Demon Cat/Wolf Hood -->
+  <path d="M50,110 C30,70 65,35 100,25 C135,35 170,70 150,110 C170,140 145,170 120,175 C100,180 80,175 50,140 Z" fill="#1e0538" stroke="#a855f7" stroke-width="3" filter="url(#voidGlow)"/>
+
+  <!-- Ethereal Horns -->
+  <path d="M65,65 Q45,30 35,35 Q45,60 70,80 Z" fill="url(#voidMist)"/>
+  <path d="M135,65 Q155,30 165,35 Q155,60 130,80 Z" fill="url(#voidMist)"/>
+
+  <!-- Dark Nebula Core Eye -->
+  <ellipse cx="100" cy="72" rx="6" ry="12" fill="#f0abfc" filter="url(#voidGlow)"/>
+
+  <!-- Glowing Magenta Eyes -->
+  <polygon points="76,102 92,98 86,110" fill="#f43f5e" filter="url(#voidGlow)"/>
+  <polygon points="124,102 108,98 114,110" fill="#f43f5e" filter="url(#voidGlow)"/>
+
+  <!-- Dark Matter Wisps -->
+  <path d="M85,130 Q100,145 115,130 Q100,155 85,130 Z" fill="#c084fc" filter="url(#voidGlow)"/>
+
+  <!-- Event Horizon Particles -->
+  <circle cx="35" cy="50" r="3" fill="#c084fc" filter="url(#voidGlow)"/>
+  <circle cx="165" cy="50" r="3" fill="#c084fc" filter="url(#voidGlow)"/>
+  <circle cx="50" cy="155" r="4" fill="#a855f7" opacity="0.7"/>
+  <circle cx="150" cy="155" r="4" fill="#a855f7" opacity="0.7"/>
+</svg>
